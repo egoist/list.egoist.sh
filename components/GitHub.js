@@ -1,7 +1,7 @@
 export default () => (
   <>
     <a
-      href="https://github.com/egoist/list.egosit.sh"
+      href="https://github.com/egoist/list.egoist.sh"
       className="github-corner"
       aria-label="View source on GitHub"
     >

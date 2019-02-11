@@ -4,6 +4,7 @@ query getMediaList ($user: Int, $type: MediaType) {
       name
       entries {
         progress
+        progressVolumes
         media {
           id
           nextAiringEpisode {
@@ -11,6 +12,7 @@ query getMediaList ($user: Int, $type: MediaType) {
           }
           episodes
           chapters
+          volumes
           siteUrl
           description
           coverImage {

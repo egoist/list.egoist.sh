@@ -22,48 +22,67 @@ export default withRouter(({ status, router }) => {
         )
         return (
           <div className="media-list">
-            {list.entries.map(entry => (
-              <a
-                href={entry.media.siteUrl}
-                target="blank"
-                key={entry.media.id}
-                className="media-item"
-              >
-                <div
-                  className="media-cover"
-                  style={{
-                    backgroundColor: entry.media.coverImage.color,
-                    backgroundImage: `url(${entry.media.coverImage.large})`
-                  }}
-                />
-                <div className="media-content">
-                  <div className="media-title">{entry.media.title.english || entry.media.title.romaji}</div>
-                  <div className="media-meta">
-                    {status === 'current' && (
-                      <span className="media-progress">
-                        Progress: {entry.progress}/
-                        {entry.media.chapters || entry.media.episodes || '?'}
-                      </span>
-                    )}
-                    {entry.media.nextAiringEpisode && (
-                      <span className="media-date">
-                        Next Episode in{' '}
-                        {humanizeDuration(
-                          entry.media.nextAiringEpisode.timeUntilAiring * 1000,
-                          { largest: 1 }
-                        )}
-                      </span>
-                    )}
-                  </div>
+            {list.entries.map(entry => {
+              const useVolumes =
+                entry.progressVolumes && entry.progressVolumes > 0
+              const useChapters =
+                mediaType === 'MANGA' && entry.progress && entry.progress > 0
+              const total =
+                (useVolumes && entry.media.volumes) ||
+                entry.media.chapters ||
+                entry.media.episodes
+              return (
+                <a
+                  href={entry.media.siteUrl}
+                  target="blank"
+                  key={entry.media.id}
+                  className="media-item"
+                >
                   <div
-                    className="media-description"
-                    dangerouslySetInnerHTML={{
-                      __html: entry.media.description
+                    className="media-cover"
+                    style={{
+                      backgroundColor: entry.media.coverImage.color,
+                      backgroundImage: `url(${entry.media.coverImage.large})`
                     }}
                   />
-                </div>
-              </a>
-            ))}
+                  <div className="media-content">
+                    <div className="media-title">
+                      {entry.media.title.english || entry.media.title.romaji}
+                    </div>
+                    <div className="media-meta">
+                      {status === 'current' && (
+                        <span className="media-progress">
+                          {mediaType === 'MANGA' ? 'Read' : 'Watched'}{' '}
+                          {useVolumes ? entry.progressVolumes : entry.progress}
+                          {total ? `/${total}` : ''}{' '}
+                          {useVolumes
+                            ? 'Volumes'
+                            : useChapters
+                            ? 'Chapters'
+                            : 'Episodes'}
+                        </span>
+                      )}
+                      {entry.media.nextAiringEpisode && (
+                        <span className="media-date">
+                          Next Episode in{' '}
+                          {humanizeDuration(
+                            entry.media.nextAiringEpisode.timeUntilAiring *
+                              1000,
+                            { largest: 1 }
+                          )}
+                        </span>
+                      )}
+                    </div>
+                    <div
+                      className="media-description"
+                      dangerouslySetInnerHTML={{
+                        __html: entry.media.description
+                      }}
+                    />
+                  </div>
+                </a>
+              )
+            })}
             <style jsx>{`
               .media-list {
                 display: grid;

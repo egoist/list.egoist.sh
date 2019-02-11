@@ -1,0 +1,31 @@
+query getMediaList ($user: Int, $type: MediaType) {
+  MediaListCollection(userId: $user, type: $type, status_in: [CURRENT, PLANNING], sort: UPDATED_TIME_DESC) {
+    lists {
+      name
+      entries {
+        progress
+        media {
+          id
+          episodes
+          chapters
+          siteUrl
+          description
+          coverImage {
+            large
+            color
+          }
+          title {
+            english
+            romaji
+            native
+          }
+          startDate {
+            year
+            month
+            day
+          }
+        }
+      }
+    }
+  }
+}

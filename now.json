@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "alias": ["list.egoist.sh"],
+  "builds": [
+    {
+      "src": "next.config.js",
+      "use": "@now/next"
+    }
+  ],
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }
+}

@@ -37,7 +37,7 @@ export default withRouter(({ status, router }) => {
                   }}
                 />
                 <div className="media-content">
-                  <div className="media-title">{entry.media.title.romaji}</div>
+                  <div className="media-title">{entry.media.title.english || entry.media.title.romaji}</div>
                   <div className="media-meta">
                     {status === 'current' && (
                       <span className="media-progress">

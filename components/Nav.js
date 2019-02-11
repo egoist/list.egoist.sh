@@ -7,7 +7,7 @@ export default withRouter(({ router }) => (
       <li>
         <Link href={{ pathname: '/', query: router.query }} prefetch>
           <a className={router.pathname === '/' ? 'active' : null}>
-            Currently Watching
+            Current
           </a>
         </Link>
       </li>

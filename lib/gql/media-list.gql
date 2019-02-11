@@ -6,6 +6,9 @@ query getMediaList ($user: Int, $type: MediaType) {
         progress
         media {
           id
+          nextAiringEpisode {
+            timeUntilAiring
+          }
           episodes
           chapters
           siteUrl

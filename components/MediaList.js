@@ -1,5 +1,6 @@
 import { Query } from 'react-apollo'
 import { withRouter } from 'next/router'
+import humanizeDuration from 'humanize-duration'
 import mediaListQuery from '../lib/gql/media-list.gql'
 import { getList } from '../lib/utils'
 
@@ -20,30 +21,42 @@ export default withRouter(({ status, router }) => {
             : 'Planning'
         )
         return (
-          <div className='media-list'>
+          <div className="media-list">
             {list.entries.map(entry => (
               <a
                 href={entry.media.siteUrl}
-                target='blank'
+                target="blank"
                 key={entry.media.id}
-                className='media-item'
+                className="media-item"
               >
                 <div
-                  className='media-cover'
+                  className="media-cover"
                   style={{
                     backgroundColor: entry.media.coverImage.color,
                     backgroundImage: `url(${entry.media.coverImage.large})`
                   }}
                 />
-                <div className='media-content'>
-                  <div className='media-title'>{entry.media.title.romaji}</div>
-                  {status === 'current' && (
-                    <div className='media-progress'>
-                      Progress: {entry.progress}/{entry.media.chapters || entry.media.episodes || '?'}
-                    </div>
-                  )}
+                <div className="media-content">
+                  <div className="media-title">{entry.media.title.romaji}</div>
+                  <div className="media-meta">
+                    {status === 'current' && (
+                      <span className="media-progress">
+                        Progress: {entry.progress}/
+                        {entry.media.chapters || entry.media.episodes || '?'}
+                      </span>
+                    )}
+                    {entry.media.nextAiringEpisode && (
+                      <span className="media-date">
+                        Next Episode in{' '}
+                        {humanizeDuration(
+                          entry.media.nextAiringEpisode.timeUntilAiring * 1000,
+                          { largest: 1 }
+                        )}
+                      </span>
+                    )}
+                  </div>
                   <div
-                    className='media-description'
+                    className="media-description"
                     dangerouslySetInnerHTML={{
                       __html: entry.media.description
                     }}
@@ -54,9 +67,9 @@ export default withRouter(({ status, router }) => {
             <style jsx>{`
               .media-list {
                 display: grid;
-                grid-template-columns: calc((100% - 40px) / 3) calc(
-                    (100% - 40px) / 3
-                  ) calc((100% - 40px) / 3);
+                grid-template-columns:
+                  calc((100% - 40px) / 3) calc((100% - 40px) / 3)
+                  calc((100% - 40px) / 3);
                 grid-gap: 20px;
               }
               @media (max-width: 768px) {
@@ -84,10 +97,15 @@ export default withRouter(({ status, router }) => {
                 font-size: 18px;
                 margin-bottom: 5px;
               }
-              .media-progress {
+              .media-meta {
+                margin-bottom: 5px;
                 font-size: 13px;
                 color: #999;
-                margin-bottom: 5px;
+                font-style: italic;
+              }
+              .media-meta span:not(:first-child):before {
+                content: '·';
+                margin: 0 5px;
               }
               .media-description {
                 color: #999;

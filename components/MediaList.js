@@ -12,10 +12,10 @@ export default withRouter(({ status, router }) => {
     return items.filter(item => {
       if (status === 'completed') {
         if (rating === 'perfect') {
-          return item.score && item.score === 10
+          return item.score && item.score >= 9.5
         }
         if (rating === 'great') {
-          return item.score && item.score >= 8.5 && item.score < 10
+          return item.score && item.score >= 8.5 && item.score < 9.5
         }
         if (rating === 'good') {
           return item.score && item.score >= 7.5 && item.score < 8.5

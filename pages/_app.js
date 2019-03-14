@@ -2,8 +2,17 @@ import App, { Container } from 'next/app'
 import React from 'react'
 import { ApolloProvider } from 'react-apollo'
 import Head from 'next/head'
+import Router from 'next/router'
+import NProgress from 'nprogress'
 import withApolloClient from '../lib/with-apollo-client'
 import GitHub from '../components/GitHub'
+
+Router.events.on('routeChangeStart', url => {
+  console.log(`Loading: ${url}`)
+  NProgress.start()
+})
+Router.events.on('routeChangeComplete', () => NProgress.done())
+Router.events.on('routeChangeError', () => NProgress.done())
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {

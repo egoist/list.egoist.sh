@@ -1,12 +1,14 @@
-query getMediaList ($user: Int, $type: MediaType) {
-  MediaListCollection(userId: $user, type: $type, status_in: [CURRENT, PLANNING], sort: UPDATED_TIME_DESC) {
+query getMediaList ($user: Int, $type: MediaType, $sort: [MediaListSort]) {
+  MediaListCollection(userId: $user, type: $type, status_in: [CURRENT, PLANNING, COMPLETED], perChunk: 500, sort: $sort) {
     lists {
       name
       entries {
+        score
         progress
         progressVolumes
         media {
           id
+          format
           nextAiringEpisode {
             timeUntilAiring
           }

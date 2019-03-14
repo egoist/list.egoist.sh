@@ -6,23 +6,61 @@ import { getList } from '../lib/utils'
 
 export default withRouter(({ status, router }) => {
   const mediaType = (router.query.type || 'anime').toUpperCase()
+  const sort = status === 'completed' ? ['SCORE_DESC', 'UPDATED_TIME_DESC'] : ['UPDATED_TIME_DESC']
+  const scoreFilter = items => {
+    const { rating } = router.query
+    return items.filter(item => {
+      if (status === 'completed') {
+        if (rating === 'perfect') {
+          return item.score && item.score === 10
+        }
+        if (rating === 'great') {
+          return item.score && item.score >= 8.5 && item.score < 10
+        }
+        if (rating === 'good') {
+          return item.score && item.score >= 7.5 && item.score < 8.5
+        }
+      }
+      return true
+    })
+  }
   return (
-    <Query query={mediaListQuery} variables={{ user: 135910, type: mediaType }}>
+    <Query query={mediaListQuery} variables={{ user: 135910, type: mediaType, sort }}>
       {({ loading, data }) => {
         if (loading) {
           return <div>Loading...</div>
         }
         const list = getList(
           data.MediaListCollection.lists,
-          status === 'current'
+          status === 'completed'
+            ? 'Completed'
+            : status === 'current'
             ? mediaType === 'MANGA'
               ? 'Reading'
               : 'Watching'
             : 'Planning'
         )
+        const items = scoreFilter(list.entries)
+        if (items.length === 0) {
+          return (
+            <div className="empty-list">
+              No Result
+              <style jsx>{`
+              .empty-list {
+                padding: 50px 30px;
+                text-align: center;
+                border: 1px solid #e2e2e2;
+                color: #666;
+                border-radius: 4px;
+                font-size: 2rem;
+              }
+              `}</style>
+            </div>
+          )
+        }
         return (
           <div className="media-list">
-            {list.entries.map(entry => {
+            {items.map(entry => {
               const useVolumes =
                 entry.progressVolumes && entry.progressVolumes > 0
               const useChapters =
@@ -48,8 +86,14 @@ export default withRouter(({ status, router }) => {
                   <div className="media-content">
                     <div className="media-title">
                       {entry.media.title.english || entry.media.title.romaji}
+                      {!/^tv/i.test(entry.media.format) && <span className="media-format">
+                        {entry.media.format}
+                      </span>}
                     </div>
                     <div className="media-meta">
+                      {status === 'completed' && entry.score ? (
+                        <span className="media-score">Score: {entry.score}</span>
+                      ) : null}
                       {status === 'current' && (
                         <span className="media-progress">
                           {mediaType === 'MANGA' ? 'Read' : 'Watched'}{' '}
@@ -115,6 +159,18 @@ export default withRouter(({ status, router }) => {
               .media-title {
                 font-size: 18px;
                 margin-bottom: 5px;
+                display: flex;
+                align-items: center;
+              }
+              .media-format {
+                background: #0366d6;
+                color: white;
+                border-radius: 4px;
+                padding: 0 5px;
+                margin-left: 10px;
+                font-size: 11px;
+                height: 20px;
+                line-height: 20px;
               }
               .media-meta {
                 margin-bottom: 5px;

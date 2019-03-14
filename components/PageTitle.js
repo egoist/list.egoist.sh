@@ -4,7 +4,9 @@ import { withRouter } from 'next/router'
 
 export default withRouter(({ router, status }) => {
   const title = `EGOIST の ${
-    status === 'current'
+    status === 'completed'
+      ? 'Completed'
+      : status === 'current'
       ? router.query.type === 'manga'
         ? 'Reading'
         : 'Watching'
@@ -15,7 +17,7 @@ export default withRouter(({ router, status }) => {
       <Head>
         <title>{title}</title>
       </Head>
-      <h1 className='page-title'>
+      <h1 className="page-title">
         <Link href="/">
           <a>{title}</a>
         </Link>

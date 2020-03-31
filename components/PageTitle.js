@@ -1,8 +1,9 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 
-export default withRouter(({ router, status }) => {
+export default ({ status }) => {
+  const router = useRouter()
   const title = `EGOIST の ${
     status === 'completed'
       ? 'Completed'
@@ -24,4 +25,4 @@ export default withRouter(({ router, status }) => {
       </h1>
     </>
   )
-})
+}

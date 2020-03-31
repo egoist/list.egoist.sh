@@ -1,0 +1,21 @@
+body {
+  font: 14px/1.4 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  margin: 5vh 10vw;
+  background: #f9f9f9;
+}
+* {
+  box-sizing: border-box;
+}
+a {
+  color: #067df7;
+  text-decoration: none;
+}
+.page {
+  margin: 0 auto;
+}
+.page-title {
+  margin: 0;
+  font-weight: 400;
+}

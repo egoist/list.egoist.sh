@@ -1,5 +1,5 @@
 query getMediaList ($user: Int, $type: MediaType, $sort: [MediaListSort]) {
-  MediaListCollection(userId: $user, type: $type, status_in: [CURRENT, PLANNING, COMPLETED], perChunk: 500, sort: $sort) {
+  MediaListCollection(userId: $user, , type: $type, status_in: [CURRENT, PLANNING, COMPLETED], perChunk: 500, sort: $sort) {
     lists {
       name
       entries {
@@ -12,6 +12,8 @@ query getMediaList ($user: Int, $type: MediaType, $sort: [MediaListSort]) {
           nextAiringEpisode {
             timeUntilAiring
           }
+          season
+          seasonYear
           episodes
           chapters
           volumes

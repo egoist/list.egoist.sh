@@ -1,7 +1,8 @@
 import Link from 'next/link'
-import { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 
-export default withRouter(({ router }) => {
+export default () => {
+  const router = useRouter()
   const queryWithout = keys => {
     const query = {}
     for (const key of Object.keys(router.query)) {
@@ -15,19 +16,23 @@ export default withRouter(({ router }) => {
     <nav>
       <ul>
         <li>
-          <Link href={{ pathname: '/', query: queryWithout(['rating']) }} prefetch>
-            <a className={router.pathname === '/' ? 'active' : null}>Current</a>
+          <Link href={{ pathname: '/', query: queryWithout(['rating']) }}>
+            <a className={router.pathname === '/' ? 'active' : null}>
+              {router.query.type === 'manga' ? 'Reading' : 'Watching'}
+            </a>
           </Link>
         </li>
         <li>
-          <Link href={{ pathname: '/planning', query: queryWithout(['rating']) }} prefetch>
+          <Link
+            href={{ pathname: '/planning', query: queryWithout(['rating']) }}
+          >
             <a className={router.pathname === '/planning' ? 'active' : null}>
               Planning
             </a>
           </Link>
         </li>
         <li>
-          <Link href={{ pathname: '/completed', query: router.query }} prefetch>
+          <Link href={{ pathname: '/completed', query: router.query }}>
             <a className={router.pathname === '/completed' ? 'active' : null}>
               Completed
             </a>
@@ -61,12 +66,16 @@ export default withRouter(({ router }) => {
       <div className="options">
         <select
           defaultValue={router.query.type || 'animes'}
-          onChange={e =>
+          onChange={e => {
+            const query = { ...router.query, type: e.target.value }
+            if (query.type === 'anime') {
+              delete query.type
+            }
             router.push({
               pathname: router.pathname,
-              query: { ...router.query, type: e.target.value }
+              query
             })
-          }
+          }}
         >
           <option value="anime">Type: Anime</option>
           <option value="manga">Type: Manga</option>
@@ -132,4 +141,4 @@ export default withRouter(({ router }) => {
       `}</style>
     </nav>
   )
-})
+}

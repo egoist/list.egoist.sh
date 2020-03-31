@@ -38,12 +38,12 @@ export default ({ status }) => {
     return (
       <div className="loading">
         <style jsx>{`
-        .loading {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 50px 0;
-        }
+          .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 50px 0;
+          }
         `}</style>
         <svg
           width="38"
@@ -163,7 +163,15 @@ export default ({ status }) => {
                   __html: entry.media.description
                 }}
               />
-              {entry.media.season && entry.media.seasonYear && <div className="media-season">({entry.media.seasonYear} <span style={{textTransform: 'capitalize'}}>{entry.media.season.toLowerCase()}</span> Season)</div>}
+              {entry.media.season && entry.media.seasonYear && (
+                <div className="media-season">
+                  ({entry.media.seasonYear}{' '}
+                  <span style={{ textTransform: 'capitalize' }}>
+                    {entry.media.season.toLowerCase()}
+                  </span>{' '}
+                  Season)
+                </div>
+              )}
             </div>
           </a>
         )

@@ -5,7 +5,6 @@ import Head from 'next/head'
 import Router from 'next/router'
 import NProgress from 'nprogress'
 import { withApollo } from '../lib/apollo'
-import GitHub from '../components/GitHub'
 import '../css/global.css'
 
 Router.events.on('routeChangeStart', url => {
@@ -40,7 +39,6 @@ class MyApp extends App {
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
         </Head>
-        <GitHub />
         <ApolloProvider client={apolloClient}>
           <Component {...pageProps} />
         </ApolloProvider>

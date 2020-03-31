@@ -163,6 +163,7 @@ export default ({ status }) => {
                   __html: entry.media.description
                 }}
               />
+              {entry.media.season && entry.media.seasonYear && <div className="media-season">({entry.media.seasonYear} <span style={{textTransform: 'capitalize'}}>{entry.media.season.toLowerCase()}</span> Season)</div>}
             </div>
           </a>
         )
@@ -239,6 +240,11 @@ export default ({ status }) => {
         .media-description {
           max-height: 150px;
           overflow: auto;
+        }
+        .media-season {
+          color: #999;
+          margin-top: 10px;
+          font-size: 13px;
         }
       `}</style>
     </div>

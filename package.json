@@ -14,7 +14,7 @@
     "graphql": "^14.6.0",
     "humanize-duration": "^3.22.0",
     "isomorphic-unfetch": "^3.0.0",
-    "next": "^9.3.3",
+    "next": "^11.1.0",
     "nprogress": "^0.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
